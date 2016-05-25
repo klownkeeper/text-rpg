@@ -1,0 +1,21 @@
+{
+  "name": "goblin",
+  "meta": {
+    "type": "monster"
+  },
+  "model": {
+    "status": {
+	  "lv": 1,
+      "hp": 10,
+      "hpMax": 10
+    },
+    "action": [
+      "attack": "1d2 Damage"
+    ],
+	"drop": ["1d2 gold"],
+	"exp": 2,
+    "decisionTree":{
+      "always": "attack"
+    }
+  }
+}
