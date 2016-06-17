@@ -1,0 +1,1 @@
+TURN_CONST = 10.0
