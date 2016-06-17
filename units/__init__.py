@@ -39,6 +39,6 @@ class Unit(object):
 class TeamedUnit(Unit):
     team = None
 
-    def action(self, situation):
+    def action(self, world):
         raise NotImplementedError
 
