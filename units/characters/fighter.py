@@ -1,5 +1,6 @@
 from units.characters import Character
 from settings import TURN_CONST
+from decorators import enemy_exist
 
 
 class Fighter(Character):
@@ -17,6 +18,13 @@ class Fighter(Character):
     action_list = {
         "short_sword": {
             'skill_attack': 1,
+            'skill_damage': '1d8',
+            'skill_cost': 0,
+            'skill_cooldown': TURN_CONST,
+            'skill_effect': None,
+        },
+        "rest": {
+            'skill_attack': 0,
             'skill_damage': '1d4',
             'skill_cost': 0,
             'skill_cooldown': TURN_CONST,
@@ -24,7 +32,13 @@ class Fighter(Character):
         }
     }
 
+    @enemy_exist
     def action(self, world):
         command, target_idx = self.get_command(world)
         if command == "short_sword":
             world.attack(world.unit_list.index(self), target_idx, command)
+        if command == "rest":
+            world.heal(
+                world.unit_list.index(self),
+                world.unit_list.index(self),
+                command)

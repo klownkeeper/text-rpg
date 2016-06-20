@@ -1,4 +1,5 @@
 from settings import TURN_CONST
+from encounter.exceptions import BattleFinishedException
 
 class Unit(object):
     id = None
@@ -12,6 +13,12 @@ class Unit(object):
     unit_damage = "1d2"
     unit_attack = 0
     unit_defence = 0
+
+    unit_fortitude = 1
+    unit_reflex = 1
+    unit_will = 1
+
+    unit_ac = 0
 
     action_list = {
         "normal_attack":{
@@ -38,6 +45,24 @@ class Unit(object):
 
 class TeamedUnit(Unit):
     team = None
+
+    def enemy_list(self, world, include_dead=False):
+        enemy_list = []
+        for idx in range(len(world.unit_list)):
+            if world.unit_list[idx].team != self.team and \
+               not world.unit_list[idx].is_dead:
+                enemy_list.append(idx)
+        if not enemy_list:
+            raise BattleFinishedException(team_win=self.team)
+        return enemy_list
+
+    def teammate_list(self, world, include_dead=False):
+        teammate_list = []
+        for idx in range(len(world.unit_list)):
+            if world.unit_list[idx].team == self.team and \
+               not world.unit_list[idx].is_dead:
+                teammate_list.append(idx)
+        return teammate_list
 
     def action(self, world):
         raise NotImplementedError

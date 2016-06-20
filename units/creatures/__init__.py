@@ -8,24 +8,6 @@ class Creature(TeamedUnit):
     unit_exp = 1
     unit_level = 1
 
-    def enemy_list(self, world, include_dead=False):
-        enemy_list = []
-        for idx in range(len(world.unit_list)):
-            if world.unit_list[idx].team != self.team and \
-               not world.unit_list[idx].is_dead:
-                enemy_list.append(idx)
-        if not enemy_list:
-            raise BattleFinishedException(team_win=self.team)
-        return enemy_list
-
-    def teammate_list(self, world, include_dead=False):
-        teammate_list = []
-        for idx in range(len(world.unit_list)):
-            if world.unit_list[idx].team == self.team and \
-               not world.unit_list[idx].is_dead:
-                teammate_list.append(idx)
-        return teammate_list
-
     def choose_action(self, world):
         if len(self.enemy_list(world)) == 0:
             raise NoEnemyException

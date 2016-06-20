@@ -1,22 +1,33 @@
 import sys
-from units import Unit
+from units import TeamedUnit
+import readline
 
 class CommandMixin(object):
 
-    def wait_stdin(self):
+    def wait_command(self, commands=[None], targets=[None]):
         while True:
             try:
-                print("input command:")
-                line = sys.stdin.readline()
-                print("get command:", line)
+                readline.parse_and_bind("tab: complete")
+                def completer(text,state):
+                    results = commands + [None]
+                    return results[state]
+                readline.set_completer(completer)
+
+                line = input("input command:")
                 return line
             except KeyboardInterrupt:
                 print("<ctrl-c>: 'help' for more information")
-                pass
+                continue
+            except EOFError:
+                print("<ctrl-d>: Player quit")
+                raise Exception("GameOver")
 
     def get_command(self, world):
         while True:
-            raw_command = self.wait_stdin().strip()
+            raw_command = self.wait_command(
+                commands=list(self.action_list.keys()),
+                targets=self.enemy_list(world)).strip()
+
             try:
                 if raw_command == "help":
                     print("help: this")
@@ -45,7 +56,7 @@ class CommandMixin(object):
                 pass
 
 
-class Character(CommandMixin, Unit):
+class Character(CommandMixin, TeamedUnit):
     """
     Abstract characters
     Strength   Dexterity  Constitution  Intelligence  Wisdom   Charisma

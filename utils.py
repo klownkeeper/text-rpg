@@ -7,3 +7,7 @@ def dice(dice_str):
     for i in range(n):
         res += random.choice(range(1, d+1))
     return res
+
+
+def saving_throw_success(dc, bonus):
+    return dc < dice("1d20") + bonus

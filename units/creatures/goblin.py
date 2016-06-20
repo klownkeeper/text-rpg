@@ -1,5 +1,6 @@
 from units.creatures import Creature
 from settings import *
+from decorators import enemy_exist
 
 
 class Goblin(Creature):
@@ -28,6 +29,7 @@ class Goblin(Creature):
     }
     unit_exp = 5
 
+    @enemy_exist
     def choose_action(self, world):
         """
         Goblins are always attack most weak enemy.
