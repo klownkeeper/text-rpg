@@ -1,5 +1,5 @@
 from settings import *
-from utils import dice
+from utils import dice, target_hit_print, target_heal_print
 
 
 class ActionManager(object):
@@ -41,7 +41,7 @@ class ActionManager(object):
         for unit in self.unit_list:
             if unit.is_dead:
                 idx = self.unit_list.index(unit)
-                print("removed dead unit", unit.name)
+                # print("removed dead unit", unit.name)
                 del(self.unit_list[idx])
                 del(self.cooldown_list[idx])
         self.unit_ready_list = []
@@ -93,8 +93,13 @@ class EncounterManager(ActionManager):
         self.unit_list[target_id].unit_hp -= damage_deal
         self.unit_list[attacker_id].unit_mp -= cost
         self.cooldown_list[attacker_id] = skill['skill_cooldown']
-        print("* (%s) <%s> (%s), deal (%d) points damage: (%d)" % (
-            attacker.name, skill_name, target.name, damage_deal, target.unit_hp))
+        msg = ""
+        if target.unit_hp <= 0:
+            msg = "Target died."
+        target_hit_print(
+            player_name=attacker.name, action_name=skill_name,
+            target_name=target.name, damage=damage_deal,
+            target_hp=target.unit_hp, message=msg)
 
     def heal(self, healer_id, target_id, skill_name):
         healer = self.unit_list[healer_id]
@@ -102,8 +107,8 @@ class EncounterManager(ActionManager):
         skill = healer.action_list[skill_name]
         cost = skill['skill_cost']
         if cost > healer.unit_mp:
-            print("* %s failed to heal %s by %s: MP(%d) not enough" % (
-                healer.name, target.name, skill_name, healer.unit_mp))
+            # print("* %s failed to heal %s by %s: MP(%d) not enough" % (
+            #     healer.name, target.name, skill_name, healer.unit_mp))
             self.cooldown_list[healer_id] = TURN_CONST
             return
         damage = skill['skill_damage']
@@ -114,5 +119,7 @@ class EncounterManager(ActionManager):
         self.unit_list[target_id].unit_hp += damage_deal
         self.unit_list[healer_id].unit_mp -= cost
         self.cooldown_list[healer_id] = skill['skill_cooldown']
-        print("* %s %s %s heal %d points damage: (%d)" % (
-            healer.name, skill_name, target.name, damage_deal, target.unit_hp))
+        target_heal_print(
+            name=healer.name, action_name=skill_name,
+            target_name=target.name, damage=damage_deal,
+            target_hp=target.unit_hp, message="")
