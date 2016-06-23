@@ -54,12 +54,8 @@ class ActionManager(object):
 
     def run_until_exception(self):
         for i in range(30):
-            print("WAIT  ", self.cooldown_list, self.unit_ready_list)
             self.wait_unit()
-            print("WAITED", self.cooldown_list, self.unit_ready_list)
             self.act_unit()
-            print("ACTED ", self.cooldown_list, self.unit_ready_list)
-
 
     def situation(self):
         """docstring for si"""
@@ -110,17 +106,17 @@ class EncounterManager(ActionManager):
 
         if attack_beat_ac:
             if maybe_critical:
-                print("%s critical hit %s!" % (attacker.name, target.name))
+                print("  %s critical hit %s!" % (attacker.name, target.name))
                 return const.ATTACK_ROLL_CRITICAL
             else:
-                print("%s hit %s!" % (attacker.name, target.name))
+                print("  %s hit %s!" % (attacker.name, target.name))
                 return const.ATTACK_ROLL_HIT
         else:
             if maybe_critical:
-                print("%s hit %s!" % (attacker.name, target.name))
+                print("  %s hit %s!" % (attacker.name, target.name))
                 return const.ATTACK_ROLL_HIT
             else:
-                print("%s failed to hit %s!" % (attacker.name, target.name))
+                print("  %s failed to hit %s!" % (attacker.name, target.name))
                 return const.ATTACK_ROLL_FAILED
 
     def damage_roll(self, attacker_id, target_id, skill_name,
