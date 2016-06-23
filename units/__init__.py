@@ -1,18 +1,26 @@
+import math
+
 from settings import TURN_CONST
 from encounter.exceptions import BattleFinishedException
+from units import const
 
 class Unit(object):
     id = None
-    name = None
+    name = const.UNIT_SIZE_MEDIUM
     initiative = 10.0
+    unit_size = const.UNIT_SIZE_MEDIUM
 
     unit_hp = 10
     unit_mp = 10
     unit_hp_max = 10
     unit_mp_max = 10
-    unit_damage = "1d2"
-    unit_attack = 0
-    unit_defence = 0
+
+    unit_str = 14
+    unit_dex = 14
+    unit_con = 14
+    unit_int = 12
+    unit_wis = 10
+    unit_chr = 12
 
     unit_fortitude = 1
     unit_reflex = 1
@@ -27,13 +35,73 @@ class Unit(object):
             'skill_cost': 0,
             'skill_cooldown': TURN_CONST,
             'skill_effect': None,
+            'skill_bonus_ability': None,
             },
     }
+
+    # Ability modifiers
+    @property
+    def size_modifier(self):
+        return getattr(const, self.unit_size + "_SIZE_MODIFIER")
+
+    @property
+    def str_modifier(self):
+        return self.ability_modifier('str')
+
+    @property
+    def dex_modifier(self):
+        return self.ability_modifier('dex')
+
+    @property
+    def con_modifier(self):
+        return self.ability_modifier('con')
+
+    @property
+    def int_modifier(self):
+        return self.ability_modifier('int')
+
+    @property
+    def wis_modifier(self):
+        return self.ability_modifier('wis')
+
+    @property
+    def chr_modifier(self):
+        return self.ability_modifier('chr')
+
+    @property
+    def base_attack_bonus(self):
+        return 1
+
+    @property
+    def attack_times(self):
+        return math.floor((self.base_attack_bonus - 1) / 5)
+
+    def ability_modifier(self, ability):
+        ability_point = getattr(self, "unit_" + ability.lower())
+        return math.floor((ability_point - 10) / 2)
+
+    # Other modifiers
+
+    @property
+    def armor_bonus(self):
+        return 0
+
+    @property
+    def shield_bonus(self):
+        return 0
+
+    @property
+    def armor_class(self):
+        return (10 + self.armor_bonus + self.shield_bonus
+                + self.dex_modifier + self.size_modifier)
 
     def __init__(self, name, **kwargs):
         self.name = name
         for k, v in kwargs.items():
             setattr(self, k, v)
+
+    def get_action(self, action_name):
+        return self.action_list[action_name]
 
     def action(self, world):
         raise NotImplementedError
@@ -66,4 +134,3 @@ class TeamedUnit(Unit):
 
     def action(self, world):
         raise NotImplementedError
-

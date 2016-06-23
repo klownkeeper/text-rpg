@@ -61,12 +61,6 @@ class Character(CommandMixin, TeamedUnit):
     Abstract characters
     Strength   Dexterity  Constitution  Intelligence  Wisdom   Charisma
     """
-    char_str = 10
-    char_dex = 10
-    char_con = 10
-    char_int = 10
-    char_wis = 10
-    char_chr = 10
 
     char_level = 1
     char_goal = 100

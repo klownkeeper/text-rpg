@@ -1,5 +1,7 @@
 from units.creatures import Creature
 from settings import *
+from units.const import *
+from encounter.const import *
 
 
 class GoblinHealer(Creature):
@@ -9,13 +11,17 @@ class GoblinHealer(Creature):
     initiative = 10.0
     team = "wild"
 
-    unit_hp = 10
+    unit_hp = 4
     unit_mp = 2
-    unit_hp_max = 10
+    unit_hp_max = 4
     unit_mp_max = 2
-    unit_damage = "1d2"
-    unit_attack = 0
-    unit_defence = 0
+
+    unit_str = 11
+    unit_dex = 13
+    unit_con = 12
+    unit_int = 10
+    unit_wis = 9
+    unit_chr = 6
 
     action_list = {
         "goblin_club":{
@@ -23,6 +29,7 @@ class GoblinHealer(Creature):
             'skill_damage': '1d2',
             'skill_cost': 0,
             'skill_cooldown': TURN_CONST,
+            'skill_bonus_ability': STRENGTH,
             'skill_effect': None,
             },
         "cure_light_wounds":{
@@ -30,6 +37,7 @@ class GoblinHealer(Creature):
             'skill_damage': '1d8',
             'skill_cost': 2,
             'skill_cooldown': TURN_CONST,
+            'skill_bonus_ability': INTELLIGENCE,
             'skill_effect': None,
             },
     }
@@ -61,4 +69,15 @@ class GoblinHealer(Creature):
         if action == "cure_light_wounds":
             world.heal(world.unit_list.index(self), target_idx, action)
         else:
-            world.attack(world.unit_list.index(self), target_idx, action)
+            attack_roll = world.attack_roll(
+                    world.unit_list.index(self), target_idx, action)
+            if attack_roll == ATTACK_ROLL_HIT:
+                world.damage_roll(
+                    world.unit_list.index(self), target_idx, action)
+            elif attack_roll == ATTACK_ROLL_CRITICAL:
+                world.damage_roll(
+                    world.unit_list.index(self), target_idx, action)
+            else:
+                pass
+            attacker_id = world.unit_list.index(self)
+            world.cooldown_list[attacker_id] = self.action_list[action]['skill_cooldown']

@@ -1,4 +1,5 @@
 from units.creatures import Creature
+from units import const
 from settings import *
 from decorators import enemy_exist
 
@@ -10,13 +11,10 @@ class Goblin(Creature):
     initiative = 10.0
     team = "wild"
 
-    unit_hp = 10
+    unit_hp = 5
     unit_mp = 1
-    unit_hp_max = 10
+    unit_hp_max = 5
     unit_mp_max = 1
-    unit_damage = "1d2"
-    unit_attack = 0
-    unit_defence = 0
 
     action_list = {
         "goblin_club":{
@@ -24,6 +22,7 @@ class Goblin(Creature):
             'skill_damage': '1d2',
             'skill_cost': 0,
             'skill_cooldown': TURN_CONST,
+            'skill_bonus_ability': const.STRENGTH,
             'skill_effect': None,
             },
     }
