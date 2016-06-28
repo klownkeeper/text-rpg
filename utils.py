@@ -32,10 +32,14 @@ def target_hit_print(**kwargs):
             "{message}"])
     print(fmt.format(**kwargs))
 
-def target_heal_print(**kwargs):
+def cast_spell_print(**kwargs):
     fmt = " ".join([
-            "  \033[94m{name}\033[0m do \033[94m\033[4m{action_name}\033[0m",
-            "to \033[93m{target_name}\033[0m,",
-            "head \033[94m{damage}\033[0m damage (HP:\033[91m{target_hp}\033[0m).",
+            "  \033[94m{name}\033[0m is casting \033[94m\033[4m{spell_name}\033[0m"])
+    print(fmt.format(**kwargs))
+
+def cast_spell_success_print(**kwargs):
+    fmt = " ".join([
+            "  casting \033[94m\033[4m{spell_name}\033[0m successfully",
+            "on \033[93m{target_name}\033[0m.",
             "{message}"])
     print(fmt.format(**kwargs))

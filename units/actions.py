@@ -7,6 +7,7 @@ from skills import spells
 from encounter.const import ATTACK_ROLL_CRITICAL, ATTACK_ROLL_FAILED, ATTACK_ROLL_HIT
 from settings import TURN_CONST
 
+from utils import cast_spell_print, cast_spell_success_print
 
 class AttackMixin(object):
 
@@ -61,6 +62,10 @@ class CastSpellMixin(object):
         # 2. reset cooldown.
         caster_idx = world.unit_list.index(self)
         world.cooldown_list[caster_idx] = self.spell_casting.cooldown
+
+        cast_spell_print(
+            name=world.unit_list[caster_idx].name,
+            spell_name=spell_name)
         
 
 class ActionDispatcherMixin(AttackMixin, CastSpellMixin):

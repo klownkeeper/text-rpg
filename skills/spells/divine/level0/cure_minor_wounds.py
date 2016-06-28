@@ -1,4 +1,5 @@
 from skills.spells.divine.divine_spell import DivineSpell
+from utils import cast_spell_success_print
 
 
 class CureMinorWounds(DivineSpell):
@@ -13,4 +14,7 @@ class CureMinorWounds(DivineSpell):
         unit = world.unit_list[target_unit_id]
         if unit.unit_hp_max - unit.unit_hp >= 1:
             world.unit_list[target_unit_id].unit_hp += 1
-            print("Cure Minor Wounds cures %s by 1 hp." % unit.name)
+            cast_spell_success_print(
+                spell_name=self.name,
+                target_name=unit.name,
+                message="cure \033[91m%s\033[0m by 1 hp" % unit.name)
