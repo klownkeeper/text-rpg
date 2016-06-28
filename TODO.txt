@@ -1,0 +1,7 @@
+2016/06/28:
+  Add a basic spell.
+  Todo:
+    Add attack to a action class
+    magic times control
+    use items
+    armor
