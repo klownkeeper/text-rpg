@@ -1,5 +1,5 @@
 from settings import TURN_CONST
-from encounter.exceptions import SkillFailException
+from encounter.exceptions import SkillFailToCastException
 from utils import saving_throw_success
 
 

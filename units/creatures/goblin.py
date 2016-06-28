@@ -2,6 +2,7 @@ from units.creatures import Creature
 from units import const
 from settings import *
 from decorators import enemy_exist
+from items.weapons import GOBLIN_CLUB
 
 
 class Goblin(Creature):
@@ -16,17 +17,9 @@ class Goblin(Creature):
     unit_hp_max = 5
     unit_mp_max = 1
 
-    action_list = {
-        "goblin_club":{
-            'skill_attack': 0,
-            'skill_damage': '1d2',
-            'skill_cost': 0,
-            'skill_cooldown': TURN_CONST,
-            'skill_bonus_ability': const.STRENGTH,
-            'skill_effect': None,
-            },
-    }
     unit_exp = 5
+
+    unit_main_weapon = GOBLIN_CLUB
 
     @enemy_exist
     def choose_action(self, world):
@@ -42,5 +35,5 @@ class Goblin(Creature):
                     world.unit_list[target_idx].unit_hp:
                 target_idx = idx
         # print(self.name, target_idx)
-        return ('goblin_club', target_idx)
+        return ('attack', target_idx)
 

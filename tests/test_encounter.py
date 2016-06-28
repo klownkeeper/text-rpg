@@ -13,7 +13,7 @@ class TestEncounter(unittest.TestCase):
         encounter = Encounter()
 
         char = Fighter("Player", team="party")
-        char.get_command = MagicMock(return_value=["short_sword", 1])
+        char.get_command = MagicMock(return_value=["attack", 1])
         encounter.add_unit(char)
         encounter.add_unit(Goblin('glblin a'))
         encounter.add_unit(Goblin('glblin b'))

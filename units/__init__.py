@@ -3,10 +3,11 @@ import math
 from settings import TURN_CONST
 from encounter.exceptions import BattleFinishedException
 from units import const
+from units.actions import  ActionDispatcherMixin, AttackMixin, CastSpellMixin
 
-class Unit(object):
+class AbstractUnit(object):
     id = None
-    name = const.UNIT_SIZE_MEDIUM
+    name = None
     initiative = 10.0
     unit_size = const.UNIT_SIZE_MEDIUM
 
@@ -15,12 +16,12 @@ class Unit(object):
     unit_hp_max = 10
     unit_mp_max = 10
 
-    unit_str = 14
-    unit_dex = 14
-    unit_con = 14
-    unit_int = 12
+    unit_str = 10
+    unit_dex = 10
+    unit_con = 10
+    unit_int = 10
     unit_wis = 10
-    unit_chr = 12
+    unit_chr = 10
 
     unit_fortitude = 1
     unit_reflex = 1
@@ -28,16 +29,18 @@ class Unit(object):
 
     unit_ac = 0
 
-    action_list = {
-        "normal_attack":{
-            'skill_attack': 0,
-            'skill_damage': '1d2',
-            'skill_cost': 0,
-            'skill_cooldown': TURN_CONST,
-            'skill_effect': None,
-            'skill_bonus_ability': None,
-            },
-    }
+    unit_main_weapon = None
+
+    # action_list = {
+    #     "normal_attack":{
+    #         'skill_attack': 0,
+    #         'skill_damage': '1d2',
+    #         'skill_cost': 0,
+    #         'skill_cooldown': TURN_CONST,
+    #         'skill_effect': None,
+    #         'skill_bonus_ability': None,
+    #         },
+    # }
 
     # Ability modifiers
     @property
@@ -110,8 +113,11 @@ class Unit(object):
     def is_dead(self):
         return self.unit_hp <= 0
 
+    def get_self_idx(self, world):
+        return world.unit_list.index(self)
 
-class TeamedUnit(Unit):
+
+class TeamedUnit(AbstractUnit):
     team = None
 
     def enemy_list(self, world, include_dead=False):
@@ -131,6 +137,16 @@ class TeamedUnit(Unit):
                not world.unit_list[idx].is_dead:
                 teammate_list.append(idx)
         return teammate_list
+
+    def action(self, world):
+        raise NotImplementedError
+
+
+class Unit(ActionDispatcherMixin,
+           TeamedUnit):
+    """
+    Player/Creature should implement this class
+    """
 
     def action(self, world):
         raise NotImplementedError

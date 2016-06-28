@@ -10,7 +10,7 @@ class BattleFinishedException(BaseException):
         return super(BattleFinishedException, self). __init__(**kwargs)
 
 
-class SkillFailToCaseException(BaseException):
+class SkillFailToCastException(BaseException):
     team_win = None
 
     def __init__(self, team_win, **kwargs):

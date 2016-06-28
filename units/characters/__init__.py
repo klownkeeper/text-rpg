@@ -1,6 +1,7 @@
 import sys
-from units import TeamedUnit
+from units import Unit
 import readline
+from decorators import enemy_exist
 
 class CommandMixin(object):
 
@@ -56,7 +57,7 @@ class CommandMixin(object):
                 pass
 
 
-class Character(CommandMixin, TeamedUnit):
+class Character(CommandMixin, Unit):
     """
     Abstract characters
     Strength   Dexterity  Constitution  Intelligence  Wisdom   Charisma
@@ -72,6 +73,7 @@ class Character(CommandMixin, TeamedUnit):
     action_list = {}
     items = []
 
+    @enemy_exist
     def action(self, world):
-        # command, target = self.get_command(world)
-        raise NotImplementedError
+        command, *args = self.get_command(world)
+        self.dispatch(command, world, *args)

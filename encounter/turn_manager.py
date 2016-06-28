@@ -51,6 +51,7 @@ class TurnManager(object):
         return self.ready
 
     def run_until_exception(self):
+        # Main Loop
         for i in range(30):
             self.wait_unit()
             self.act_unit()

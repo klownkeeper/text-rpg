@@ -7,7 +7,8 @@ class DamageThrowMixin(object):
     Tell how many points of damage target will get.
     """
 
-    def damage_roll(self, attacker_id, target_id, skill_name,
+    def damage_roll(self, attacker_id, target_id,
+                    skill_name, skill_damage, bonus_ability,
                     is_critical=False, penalty=0):
         """
         skill_damage + related ability modifier
@@ -15,18 +16,18 @@ class DamageThrowMixin(object):
         """
         attacker = self.unit_list[attacker_id]
         target = self.unit_list[target_id]
-        skill = attacker.action_list[skill_name]
-        base_damage = dice(skill['skill_damage'])
-        modifier = attacker.ability_modifier(skill['skill_bonus_ability'])
+        base_damage = dice(skill_damage)
+        modifier = attacker.ability_modifier(bonus_ability)
         if is_critical:
-            base_damage += dice(skill['skill_damage'])
-            modifiers += modifiers
+            base_damage += dice(skill_damage)
+            modifier += modifier
         damage = base_damage + modifier - penalty
         if damage < const.MINIMUN_DAMAGE:
             damage = MINIMUN_DAMAGE
         self.unit_list[target_id].unit_hp -= damage
-        self.unit_list[attacker_id].unit_mp -= skill['skill_cost']
         msg = ""
+        if is_critical:
+            msg += "(Critical Hit)"
         if target.unit_hp <= 0:
             msg = "Target died."
         target_hit_print(
