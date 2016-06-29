@@ -2,7 +2,7 @@ from units.creatures import Creature
 from units import const
 from settings import *
 from decorators import enemy_exist
-from items.weapons import GOBLIN_CLUB
+from items.weapons import UNARMED_STRIKE_SMALL
 
 
 class Goblin(Creature):
@@ -19,7 +19,7 @@ class Goblin(Creature):
 
     unit_exp = 5
 
-    unit_main_weapon = GOBLIN_CLUB
+    unit_main_weapon = UNARMED_STRIKE_SMALL
 
     @enemy_exist
     def choose_action(self, world):

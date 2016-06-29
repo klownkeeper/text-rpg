@@ -2,7 +2,7 @@ from units.creatures import Creature
 from settings import *
 from units.const import *
 from encounter.const import *
-from items.weapons import GOBLIN_CLUB
+from items.weapons import UNARMED_STRIKE_SMALL
 
 
 class GoblinHealer(Creature):
@@ -26,7 +26,7 @@ class GoblinHealer(Creature):
 
     unit_exp = 5
 
-    unit_main_weapon = GOBLIN_CLUB
+    unit_main_weapon = UNARMED_STRIKE_SMALL
 
     def choose_action(self, world):
         """

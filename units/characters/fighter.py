@@ -4,7 +4,7 @@ from decorators import enemy_exist
 from units.const import *
 from encounter.const import *
 
-from items.weapons import SHORT_SWORD
+from items.weapons import SHORT_SWORD_MEDIUM
 
 class Fighter(Character):
 
@@ -17,4 +17,4 @@ class Fighter(Character):
     unit_mp_max = 10
 
 
-    unit_main_weapon = SHORT_SWORD
+    unit_main_weapon = SHORT_SWORD_MEDIUM
