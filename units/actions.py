@@ -13,11 +13,12 @@ class AttackMixin(object):
 
     ability_to_attack = const.STRENGTH
 
-    def attack(self, world, target_idx, **kwargs):
+    def attack(self, world, target_idx_str, **kwargs):
         """
         Normal attack action
         All units should have it.
         """
+        target_idx = int(target_idx_str)
         weapon = self.get_weapon(world)
         attacker_idx = self.get_self_idx(world)
         attack_bonus = self.get_base_attack_bonus()

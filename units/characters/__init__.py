@@ -8,13 +8,15 @@ class CommandMixin(object):
     def wait_command(self, commands=[None], targets=[None]):
         while True:
             try:
-                readline.parse_and_bind("tab: complete")
-                def completer(text,state):
-                    results = commands + [None]
-                    return results[state]
-                readline.set_completer(completer)
+                # readline.parse_and_bind("tab: complete")
+                # def completer(text,state):
+                #     results = commands + [None]
+                #     return results[state]
+                # readline.set_completer(completer)
 
-                line = input("input command:")
+                print(">>>>> player action:")
+                line = input()
+                print("<<<<<")
                 return line
             except KeyboardInterrupt:
                 print("<ctrl-c>: 'help' for more information")
@@ -25,33 +27,31 @@ class CommandMixin(object):
 
     def get_command(self, world):
         while True:
-            raw_command = self.wait_command(
-                commands=list(self.action_list.keys()),
-                targets=self.enemy_list(world)).strip()
+            command, *args = self.wait_command(
+                commands=self.action_name_list,
+                targets=self.enemy_list(world)).strip().split(" ")
 
             try:
-                if raw_command == "help":
-                    print("help: this")
-                    print("status: all unit status")
-                    print("commands: my commands")
+                if command == "help":
+                    print("help")
+                    print("status")
+                    print("action")
                     continue
 
-                if raw_command == "status":
-                    print("units")
+                if command == "status":
+                    print("unit status")
                     for idx, unit in zip(range(len(world.unit_list)), world.unit_list):
                         print("> %d (%s)" % (idx, unit.name), unit is self and "Me" or None)
                     continue
 
-                if raw_command == "commands":
-                    print("actions")
-                    for a in self.action_list.keys():
+                if command == "action":
+                    print("player actions:")
+                    for a in self.action_name_list.keys():
                         print("> ", a)
                     continue
 
-                command, target_id = raw_command.split(' ')
-
-                if command in self.action_list:
-                    return (command, int(target_id))
+                if command in self.action_name_list:
+                    return (command, *args)
             except Exception as e:
                 print(e)
                 pass
@@ -76,7 +76,6 @@ class AbstractCharacter(CommandMixin, Unit):
     char_gender = "male"
     char_alignment = "true_neutral"
 
-    action_list = {}
     items = []
 
     @enemy_exist
