@@ -59,6 +59,7 @@ class CastSpellMixin(object):
     def check_spell_casting(self, world):
         if self.spell_casting:
             self.spell_casting.effect(world, *self.spell_args)
+            self.spell_casting = None
 
     def cast(self, world, spell_name, *args):
         # 1. put spell to spell_casting.

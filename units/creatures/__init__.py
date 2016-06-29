@@ -11,6 +11,8 @@ class Creature(Unit):
 
     creature_hit_dice = "1d4"
 
+    creature_spells = {}
+
     def choose_action(self, world):
         if len(self.enemy_list(world)) == 0:
             raise NoEnemyException
