@@ -36,6 +36,14 @@ class AbstractClass(object):
         5, 5, 6, 6, 6
     ]
 
+    ability_bonus = [
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+    ]
+
     enable_weapon_armor = []
 
     def feats_bonus_on_level(self, level):

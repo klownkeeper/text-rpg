@@ -34,17 +34,6 @@ class AbstractUnit(object):
     unit_main_weapon = None
     base_attack_bonus = [0]
 
-    # action_list = {
-    #     "normal_attack":{
-    #         'skill_attack': 0,
-    #         'skill_damage': '1d2',
-    #         'skill_cost': 0,
-    #         'skill_cooldown': TURN_CONST,
-    #         'skill_effect': None,
-    #         'skill_bonus_ability': None,
-    #         },
-    # }
-
     # Ability modifiers
     @property
     def size_modifier(self):

@@ -59,6 +59,10 @@ class CommandMixin(object):
     def ask_next_level_class(self):
         return "Fighter"
 
+    def ask_ability_bonus(self):
+        """docstring for ask_ability_bonus"""
+        return "unit_str"
+
 
 class AbstractCharacter(CommandMixin, Unit):
     """
@@ -66,7 +70,6 @@ class AbstractCharacter(CommandMixin, Unit):
     Strength   Dexterity  Constitution  Intelligence  Wisdom   Charisma
     """
 
-    char_level = 1
     char_goal = 100
 
     char_race = "human"

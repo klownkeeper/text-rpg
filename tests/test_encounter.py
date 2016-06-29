@@ -16,7 +16,7 @@ class TestEncounter(unittest.TestCase):
 
         char = Character.create(
             name="Player",
-            start_class=Fighter,
+            start_class="Fighter",
             str_modify=6,
             dex_modify=2,
             con_modify=4,
@@ -27,11 +27,18 @@ class TestEncounter(unittest.TestCase):
             unit_level=10,
             )
         char.team = "party"
+        char.gain_level("Fighter")
+        char.gain_level("Fighter")
+        char.gain_level("Fighter")
+        char.gain_level("Fighter")
+        char.gain_level("Fighter")
+        char.gain_level("Fighter")
+        print("Char stats: HP:%d/%d %s" % (char.unit_hp, char.unit_hp_max, char.get_base_attack_bonus()))
         char.get_command = MagicMock(return_value=["attack", 1])
 
         gob1 = Goblin.create(name='goblin A')
         gob2 = Goblin.create(name='goblin B')
-        gob3 = GoblinHealer.create(name='goblin C', unit_level=15)
+        gob3 = GoblinHealer.create(name='goblin header', unit_level=7)
         encounter.add_unit(char)
         encounter.add_unit(gob1)
         encounter.add_unit(gob2)
