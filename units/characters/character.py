@@ -71,7 +71,6 @@ class Character(AbstractCharacter):
         """docstring for gain_level"""
         # raise NotImplementedError()
         # 1. Increase HP
-        print("%s gain a level:" % self.name)
         c = getattr(char_classes, class_gain)()
         gain_hp = dice(c.hit_dice) + self.con_modifier
         self.unit_hp_max += gain_hp
@@ -95,6 +94,7 @@ class Character(AbstractCharacter):
             self.classes[class_gain] += 1
         else:
             self.classes[class_gain] = 1
+        print("%s gain a level(LV %d):" % (self.name, self.unit_level))
 
     def get_base_attack_bonus(self):
         res = []

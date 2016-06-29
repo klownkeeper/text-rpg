@@ -24,7 +24,6 @@ class TestEncounter(unittest.TestCase):
             wis_modify=0,
             chr_modify=0,
             init_weapon=SHORT_SWORD_MEDIUM,
-            unit_level=10,
             )
         char.team = "party"
         char.gain_level("Fighter")
