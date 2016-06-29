@@ -1,4 +1,1 @@
-class CharacterClass(object):
-    """docstring for character class"""
-    name = None
-    level = 0
+from units.characters.classes.fighter import *

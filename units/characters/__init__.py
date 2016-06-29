@@ -57,7 +57,7 @@ class CommandMixin(object):
                 pass
 
 
-class Character(CommandMixin, Unit):
+class AbstractCharacter(CommandMixin, Unit):
     """
     Abstract characters
     Strength   Dexterity  Constitution  Intelligence  Wisdom   Charisma

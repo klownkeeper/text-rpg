@@ -1,4 +1,4 @@
-from units.charaters.classes.abstract_class import AbstractClass
+from units.characters.classes.abstract_class import AbstractClass
 from items.weapon_types import *
 
         
