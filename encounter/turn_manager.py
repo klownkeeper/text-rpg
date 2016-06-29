@@ -4,6 +4,7 @@ from utils import turn_start_print, turn_end_print
 
 class TurnManager(object):
     unit_list = []
+    unit_dead_list = []
     cooldown_list = []
     unit_ready_list = []
     ready = False
@@ -14,6 +15,13 @@ class TurnManager(object):
         """docstring for add_unit"""
         self.unit_list.append(unit)
         self.cooldown_list.append(cooldown_init)
+
+    def kill_unit(self, unit_id):
+        """docstring for kill_unit"""
+        unit = self.unit_list[unit_id]
+        self.unit_dead_list.append(unit)
+        del(self.unit_list[unit_id])
+        del(self.cooldown_list[unit_id])
 
     def del_unit(self, unit_id):
         for i in range(len(self.unit_list)):
@@ -44,13 +52,10 @@ class TurnManager(object):
             self.current_act_unit_id = idx
             turn_start_print(name=self.unit_list[idx].name)
             self.unit_list[idx].action(self)
-            # self.cooldown_list[idx] = TURN_CONST
         for unit in self.unit_list:
             if unit.is_dead:
                 idx = self.unit_list.index(unit)
-                # print("removed dead unit", unit.name)
-                del(self.unit_list[idx])
-                del(self.cooldown_list[idx])
+                self.kill_unit(idx)
         self.unit_ready_list = []
         self.ready = False
         return self.ready

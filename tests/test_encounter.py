@@ -45,3 +45,4 @@ class TestEncounter(unittest.TestCase):
         except BattleFinishedException as e:
             win_team = e.team_win
             print("team %s wins!" % win_team)
+            print("unit dead:", encounter.unit_dead_list)
