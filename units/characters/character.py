@@ -28,16 +28,16 @@ class Character(AbstractCharacter):
         self.dispatch(command, world, *args)
 
     @classmethod
-    def create_character(cls,
-                         name,
-                         start_class,
-                         str_modify=0,
-                         dex_modify=0,
-                         con_modify=0,
-                         int_modify=0,
-                         wis_modify=0,
-                         chr_modify=0,
-                         init_weapon=None,
+    def create(cls,
+               name,
+               start_class,
+               str_modify=0,
+               dex_modify=0,
+               con_modify=0,
+               int_modify=0,
+               wis_modify=0,
+               chr_modify=0,
+               init_weapon=None,
             ):
         char_class = start_class()
         char = Character(

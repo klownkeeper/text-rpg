@@ -29,7 +29,7 @@ class DamageThrowMixin(object):
         if is_critical:
             msg += "(Critical Hit)"
         if target.unit_hp <= 0:
-            msg = "Target died."
+            msg += "Target died."
         target_hit_print(
             player_name=attacker.name, action_name=skill_name,
             target_name=target.name, damage=damage,

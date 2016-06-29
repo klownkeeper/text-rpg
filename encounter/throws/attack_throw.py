@@ -11,7 +11,7 @@ class AttackThrowMixin(object):
       if attack throw pass, it will give a hit.
     """
 
-    def attack_roll(self, attacker_id, target_id, ability_to_attack, penalty=0):
+    def attack_roll(self, attacker_id, target_id, ability_to_attack, penalty=0, critical_dice=[20]):
         """
         1d20. when get 1, always MISS.
               when get 20, maybe critical.
@@ -24,7 +24,7 @@ class AttackThrowMixin(object):
         maybe_critical = False
         if d20 == 1:
             return const.ATTACK_ROLL_FAILED
-        if d20 == 20:
+        if d20 in critical_dice:
             maybe_critical = True
             # make a critical rool
         attacker = self.get_unit(attacker_id)

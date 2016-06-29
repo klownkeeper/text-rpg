@@ -1,4 +1,5 @@
 from settings import *
+from utils import turn_start_print, turn_end_print
 
 
 class TurnManager(object):
@@ -38,6 +39,7 @@ class TurnManager(object):
         for idx in self.unit_ready_list:
             if self.unit_list[idx].is_dead:
                 continue
+            turn_start_print(name=self.unit_list[idx].name)
             self.unit_list[idx].action(self)
             # self.cooldown_list[idx] = TURN_CONST
         for unit in self.unit_list:

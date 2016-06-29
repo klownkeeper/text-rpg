@@ -43,3 +43,13 @@ def cast_spell_success_print(**kwargs):
             "on \033[93m{target_name}\033[0m.",
             "{message}"])
     print(fmt.format(**kwargs))
+
+def turn_start_print(**kwargs):
+    fmt = " ".join([
+            "\033[94m\033[4m{name}\033[0m's turn is started: "])
+    print(fmt.format(**kwargs))
+
+def turn_end_print(**kwargs):
+    fmt = " ".join([
+            "\033[94m\033[4m{name}\033[0m's turn is finished: "])
+    print(fmt.format(**kwargs))

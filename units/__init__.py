@@ -150,3 +150,7 @@ class Unit(ActionDispatcherMixin,
 
     def action(self, world):
         raise NotImplementedError
+
+    @classmethod
+    def create(cls, **kwargs):
+        raise NotImplementedError()

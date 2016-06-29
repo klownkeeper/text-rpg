@@ -21,7 +21,8 @@ class AttackMixin(object):
         weapon = self.get_weapon(world)
         attacker_idx = self.get_self_idx(world)
         attack_roll = world.attack_roll(
-                attacker_idx, target_idx, self.ability_to_attack)
+                attacker_idx, target_idx, self.ability_to_attack,
+                critical_dice=weapon['critical_dice'])
         if attack_roll == ATTACK_ROLL_HIT:
             world.damage_roll(
                 attacker_idx, target_idx,
