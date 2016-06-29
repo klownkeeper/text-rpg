@@ -56,6 +56,9 @@ class CommandMixin(object):
                 print(e)
                 pass
 
+    def ask_next_level_class(self):
+        return "Fighter"
+
 
 class AbstractCharacter(CommandMixin, Unit):
     """

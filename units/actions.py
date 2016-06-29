@@ -20,22 +20,28 @@ class AttackMixin(object):
         """
         weapon = self.get_weapon(world)
         attacker_idx = self.get_self_idx(world)
-        attack_roll = world.attack_roll(
-                attacker_idx, target_idx, self.ability_to_attack,
-                critical_dice=weapon['critical_dice'])
-        if attack_roll == ATTACK_ROLL_HIT:
-            world.damage_roll(
-                attacker_idx, target_idx,
-                weapon['name'], weapon['damage'],
-                self.ability_to_attack)
-        elif attack_roll == ATTACK_ROLL_CRITICAL:
-            world.damage_roll(
-                attacker_idx, target_idx,
-                weapon['name'], weapon['damage'],
-                self.ability_to_attack,
-                is_critical=True)
-        else:
-            pass
+        attack_bonus = self.get_base_attack_bonus()
+        for attack_time in range(len(attack_bonus)):
+            attack_roll = world.attack_roll(
+                    attacker_idx, target_idx, self.ability_to_attack,
+                    attack_time=attack_time,
+                    critical_dice=weapon['critical_dice'])
+            target_dead = False
+            if attack_roll == ATTACK_ROLL_HIT:
+                target_dead = world.damage_roll(
+                    attacker_idx, target_idx,
+                    weapon['name'], weapon['damage'],
+                    self.ability_to_attack)
+            elif attack_roll == ATTACK_ROLL_CRITICAL:
+                target_dead = world.damage_roll(
+                    attacker_idx, target_idx,
+                    weapon['name'], weapon['damage'],
+                    self.ability_to_attack,
+                    is_critical=True)
+            else:
+                pass
+            if target_dead:
+                break
         world.cooldown_list[attacker_idx] = TURN_CONST
 
     def get_weapon(self, world):

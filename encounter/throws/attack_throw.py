@@ -11,7 +11,13 @@ class AttackThrowMixin(object):
       if attack throw pass, it will give a hit.
     """
 
-    def attack_roll(self, attacker_id, target_id, ability_to_attack, penalty=0, critical_dice=[20]):
+    def attack_roll(self,
+                    attacker_id,
+                    target_id,
+                    ability_to_attack,
+                    attack_time=0,
+                    critical_dice=[20],
+                    penalty=0):
         """
         1d20. when get 1, always MISS.
               when get 20, maybe critical.
@@ -30,7 +36,7 @@ class AttackThrowMixin(object):
         attacker = self.get_unit(attacker_id)
         target = self.get_unit(target_id)
 
-        attack_bonus = (attacker.base_attack_bonus
+        attack_bonus = (attacker.get_base_attack_bonus()[attack_time]
                 + attacker.ability_modifier(ability_to_attack)
                 + attacker.size_modifier)
         target_ac = target.armor_class

@@ -24,6 +24,7 @@ class TestEncounter(unittest.TestCase):
             wis_modify=0,
             chr_modify=0,
             init_weapon=SHORT_SWORD_MEDIUM,
+            unit_level=10,
             )
         char.team = "party"
         char.get_command = MagicMock(return_value=["attack", 1])

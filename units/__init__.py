@@ -11,6 +11,8 @@ class AbstractUnit(object):
     initiative = 10.0
     unit_size = const.UNIT_SIZE_MEDIUM
 
+    unit_level = 1
+
     unit_hp = 10
     unit_mp = 10
     unit_hp_max = 10
@@ -30,6 +32,7 @@ class AbstractUnit(object):
     unit_ac = 0
 
     unit_main_weapon = None
+    base_attack_bonus = [0]
 
     # action_list = {
     #     "normal_attack":{
@@ -71,9 +74,8 @@ class AbstractUnit(object):
     def chr_modifier(self):
         return self.ability_modifier('chr')
 
-    @property
-    def base_attack_bonus(self):
-        return 1
+    def get_base_attack_bonus(self):
+        return self.base_attack_bonus
 
     @property
     def attack_times(self):
@@ -101,7 +103,8 @@ class AbstractUnit(object):
     def __init__(self, name, **kwargs):
         self.name = name
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            if hasattr(self, k):
+                setattr(self, k, v)
 
     def get_action(self, action_name):
         return self.action_list[action_name]

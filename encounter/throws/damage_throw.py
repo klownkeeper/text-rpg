@@ -26,11 +26,15 @@ class DamageThrowMixin(object):
             damage = MINIMUN_DAMAGE
         self.unit_list[target_id].unit_hp -= damage
         msg = ""
+        is_dead = False
         if is_critical:
             msg += "(Critical Hit)"
         if target.unit_hp <= 0:
             msg += "Target died."
+            is_dead = True
         target_hit_print(
             player_name=attacker.name, action_name=skill_name,
             target_name=target.name, damage=damage,
             target_hp=target.unit_hp, message=msg)
+        return is_dead
+

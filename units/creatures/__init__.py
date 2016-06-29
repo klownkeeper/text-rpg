@@ -8,7 +8,6 @@ class Creature(Unit):
     """docstring for Abstract Creature"""
 
     unit_exp = 1
-    unit_level = 1
 
     creature_hit_dice = "1d4"
 
