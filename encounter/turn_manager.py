@@ -8,6 +8,8 @@ class TurnManager(object):
     unit_ready_list = []
     ready = False
 
+    current_act_unit_id = None # keep current in turn unit idx
+
     def add_unit(self, unit, cooldown_init=TURN_CONST):
         """docstring for add_unit"""
         self.unit_list.append(unit)
@@ -39,6 +41,7 @@ class TurnManager(object):
         for idx in self.unit_ready_list:
             if self.unit_list[idx].is_dead:
                 continue
+            self.current_act_unit_id = idx
             turn_start_print(name=self.unit_list[idx].name)
             self.unit_list[idx].action(self)
             # self.cooldown_list[idx] = TURN_CONST
@@ -74,4 +77,3 @@ class TurnManager(object):
             if self.cooldown_list[idx] < 0.001:
                 self.cooldown_list[idx] = 0
                 self.unit_ready_list.append(idx)
-

@@ -37,7 +37,7 @@ class GoblinHealer(Creature):
             unit = world.unit_list[idx]
             if (float(unit.unit_hp) / float(unit.unit_hp_max)) < 0.4 and \
                     self.unit_mp >= 2:
-                return ("cast", "cure_minor_wounds", idx)
+                return ("cast", "cure_light_wounds", idx)
         enemy_list = self.enemy_list(world)
         if len(enemy_list) == 0:
             raise NoEnemyException
