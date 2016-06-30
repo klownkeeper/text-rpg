@@ -1,4 +1,5 @@
 import math
+import uuid
 
 from settings import TURN_CONST
 from encounter.exceptions import BattleFinishedException
@@ -90,6 +91,7 @@ class AbstractUnit(object):
                 + self.dex_modifier + self.size_modifier)
 
     def __init__(self, name, **kwargs):
+        self.id = str(uuid.uuid4())
         self.name = name
         for k, v in kwargs.items():
             if hasattr(self, k):

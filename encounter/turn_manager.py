@@ -2,7 +2,23 @@ from settings import *
 from utils import turn_start_print, turn_end_print
 
 
-class TurnManager(object):
+class WorldMixin(object):
+
+    def get_unit_by_idx(self, unit_id):
+        return self.unit_list[unit_id]
+
+    def get_unit_by_uuid(self, unit_uuid):
+        for u in self.unit_list:
+            if u.id == unit_uuid:
+                return u
+        
+    def get_unit_idx_by_uuid(self, unit_uuid):
+        for u in self.unit_list:
+            if u.id == unit_uuid:
+                return self.unit_list.index(u)
+        
+
+class TurnManager(WorldMixin):
     unit_list = []
     unit_dead_list = []
     cooldown_list = []
@@ -28,9 +44,6 @@ class TurnManager(object):
             if self.unit_list[i].id == unit_id:
                 del(self.unit_list[i])
                 del(self.cooldown_list[i])
-
-    def get_unit(self, unit_id):
-        return self.unit_list[unit_id]
 
     def wait_unit(self):
         if not self.unit_list:

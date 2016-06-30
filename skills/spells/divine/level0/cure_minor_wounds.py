@@ -1,8 +1,8 @@
 from skills.spells.divine.divine_spell import DivineSpell
-from utils import cast_spell_success_print
+from skills.spells.spell import SingleTargetHealSpellMixin
 
 
-class CureMinorWounds(DivineSpell):
+class CureMinorWounds(SingleTargetHealSpellMixin, DivineSpell):
     """
     Cure Minor Wounds: Cures 1 point of damage.
     """
@@ -10,11 +10,4 @@ class CureMinorWounds(DivineSpell):
     name = "cure_minor_wounds"
     description = "Cure Minor Wounds: Cures 1 point of damage."
 
-    def effect(self, world, target_unit_id):
-        unit = world.unit_list[target_unit_id]
-        if unit.unit_hp_max - unit.unit_hp >= 1:
-            world.unit_list[target_unit_id].unit_hp += 1
-            cast_spell_success_print(
-                spell_name=self.name,
-                target_name=unit.name,
-                message="cure \033[91m%s\033[0m by 1 hp" % unit.name)
+    heal_hp = 1

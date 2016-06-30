@@ -33,8 +33,8 @@ class AttackThrowMixin(object):
         if d20 in critical_dice:
             maybe_critical = True
             # make a critical rool
-        attacker = self.get_unit(attacker_id)
-        target = self.get_unit(target_id)
+        attacker = self.get_unit_by_idx(attacker_id)
+        target = self.get_unit_by_idx(target_id)
 
         attack_bonus = (attacker.get_base_attack_bonus()[attack_time]
                 + attacker.ability_modifier(ability_to_attack)

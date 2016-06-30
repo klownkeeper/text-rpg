@@ -40,11 +40,10 @@ class GoblinHealer(Creature):
         if self.creature_spells['cure_light_wounds'] > 0:
             for idx in teammate_list:
                 unit = world.unit_list[idx]
-                if (float(unit.unit_hp) / float(unit.unit_hp_max)) < 0.4 and \
+                if (float(unit.unit_hp) / float(unit.unit_hp_max)) < 0.7 and \
                         self.unit_mp >= 2:
-                    print("%%%%%", self.creature_spells)
                     self.creature_spells['cure_light_wounds'] -= 1
-                    return ("cast", "cure_light_wounds", idx)
+                    return ("cast", "cure_light_wounds", unit.id)
         enemy_list = self.enemy_list(world)
         if len(enemy_list) == 0:
             raise NoEnemyException
@@ -53,5 +52,4 @@ class GoblinHealer(Creature):
             if world.unit_list[enemy_list[idx]].unit_hp < \
                     world.unit_list[target_idx].unit_hp:
                 target_idx = idx
-        # print(self.name, target_idx)
         return ('attack', target_idx)

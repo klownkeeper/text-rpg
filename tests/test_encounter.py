@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import MagicMock
 from units.creatures.goblin import Goblin
 from units.creatures.goblin_healer import GoblinHealer
+from units.creatures.goblin_caster import GoblinCaster
 from units.characters.character import Character
 from units.characters.classes import Fighter
 from encounter import Encounter
@@ -28,11 +29,12 @@ class TestEncounter(unittest.TestCase):
         char.team = "party"
         char.gain_level("Fighter")
         char.gain_level("Fighter")
+        char.gain_level("Fighter")
         print("Char stats: HP:%d/%d %s" % (char.unit_hp, char.unit_hp_max, char.get_base_attack_bonus()))
         char.get_command = MagicMock(return_value=["attack", "1"])
 
-        gob1 = Goblin.create(name='goblin A')
-        gob2 = Goblin.create(name='goblin B')
+        gob1 = Goblin.create(name='goblin', unit_level=5)
+        gob2 = GoblinCaster.create(name='goblin caster', unit_level=5)
         gob3 = GoblinHealer.create(name='goblin header', unit_level=7)
         encounter.add_unit(char)
         encounter.add_unit(gob1)
