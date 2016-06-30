@@ -1,5 +1,6 @@
 from skills.spells.arcane.arcane_spell import ArcaneSpell
 from skills.spells.spell import SingleTargetDamageSpellMixin
+from skills.spells import const
 
 
 class RayOfFrost(SingleTargetDamageSpellMixin, ArcaneSpell):
@@ -15,3 +16,6 @@ class RayOfFrost(SingleTargetDamageSpellMixin, ArcaneSpell):
 
     damage = 0
     damage_dice = "1d3"
+
+    spell_type = const.DAMAGE_SPELL
+    spell_target_type = const.SINGLE_TARGET_SPELL

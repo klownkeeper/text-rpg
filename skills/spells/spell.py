@@ -1,5 +1,6 @@
 from skills.skill import AbstractSkill
 from utils import dice
+from skills.spells import const
 from utils import (cast_spell_success_print,
                    cast_spell_failed_print)
 
@@ -10,6 +11,9 @@ class Spell(AbstractSkill):
     """
 
     level = 0
+
+    spell_type = None
+    spell_target_type = None
 
     def effect(self, world, *args):
         raise NotImplementedError("Spell class need effect function")
@@ -41,6 +45,9 @@ class SingleTargetHealSpellMixin(SingleTargetSpellMixin):
 
     heal_hp = 0
     heal_hp_dice = None
+
+    spell_type = const.HEAL_SPELL
+    spell_target_type = const.SINGLE_TARGET_SPELL
 
     def get_heal_hp(self, world, *args):
         """docstring for ge"""
@@ -93,6 +100,9 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
 
     damage = 0
     damage_dice = None
+
+    spell_type = const.DAMAGE_SPELL
+    spell_target_type = const.SINGLE_TARGET_SPELL
 
     def get_total_damage(self, world, *args):
         """docstring for ge"""

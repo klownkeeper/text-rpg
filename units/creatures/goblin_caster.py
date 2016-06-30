@@ -1,10 +1,11 @@
 from units.creatures import Creature
 from settings import *
 from units.const import *
+from units.creatures.tactics.random_spell_attack import RandomSpellAttackTactic
 from encounter.const import *
 from items.weapons import UNARMED_STRIKE_SMALL
 
-class GoblinCaster(Creature):
+class GoblinCaster(RandomSpellAttackTactic, Creature):
     """docstring for Goblin Caster"""
 
     name = None
@@ -30,20 +31,3 @@ class GoblinCaster(Creature):
     creature_spells = {
         'ray_of_frost': 6
     }
-
-    def choose_action(self, world):
-        """
-        Goblins are always attack most weak enemy.
-        """
-        enemy_list = self.enemy_list(world)
-        if len(enemy_list) == 0:
-            raise NoEnemyException
-        
-        for idx in enemy_list:
-            unit = world.unit_list[idx]
-            if not unit.is_dead:
-                if self.creature_spells['ray_of_frost'] > 0:
-                    self.creature_spells['ray_of_frost'] -= 1
-                    return ("cast", "ray_of_frost", unit.id)
-                else:
-                    return ('attack', target_idx)

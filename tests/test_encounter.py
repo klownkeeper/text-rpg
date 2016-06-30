@@ -15,8 +15,8 @@ class TestEncounter(unittest.TestCase):
     def test_encounter(self):
         encounter = Encounter()
 
-        char = Character.create(
-            name="Player",
+        char1 = Character.create(
+            name="Player A",
             start_class="Fighter",
             str_modify=6,
             dex_modify=2,
@@ -26,17 +26,36 @@ class TestEncounter(unittest.TestCase):
             chr_modify=0,
             init_weapon=SHORT_SWORD_MEDIUM,
             )
-        char.team = "party"
-        char.gain_level("Fighter")
-        char.gain_level("Fighter")
-        char.gain_level("Fighter")
-        print("Char stats: HP:%d/%d %s" % (char.unit_hp, char.unit_hp_max, char.get_base_attack_bonus()))
-        char.get_command = MagicMock(return_value=["attack", "1"])
+        char1.team = "party"
+        char1.gain_level("Fighter")
+        char1.gain_level("Fighter")
+        char1.gain_level("Fighter")
+        print("Char stats: HP:%d/%d %s" % (char1.unit_hp, char1.unit_hp_max, char1.get_base_attack_bonus()))
+        char1.get_command = MagicMock(return_value=["attack", "1"])
+
+        # char2 = Character.create(
+        #     name="Player B",
+        #     start_class="Fighter",
+        #     str_modify=6,
+        #     dex_modify=2,
+        #     con_modify=4,
+        #     int_modify=2,
+        #     wis_modify=0,
+        #     chr_modify=0,
+        #     init_weapon=SHORT_SWORD_MEDIUM,
+        #     )
+        # char2.team = "party"
+        # char2.gain_level("Fighter")
+        # char2.gain_level("Fighter")
+        # char2.gain_level("Fighter")
+        # print("Char stats: HP:%d/%d %s" % (char2.unit_hp, char2.unit_hp_max, char2.get_base_attack_bonus()))
+        # char2.get_command = MagicMock(return_value=["attack", "2"])
 
         gob1 = Goblin.create(name='goblin', unit_level=5)
         gob2 = GoblinCaster.create(name='goblin caster', unit_level=5)
         gob3 = GoblinHealer.create(name='goblin header', unit_level=7)
-        encounter.add_unit(char)
+        encounter.add_unit(char1)
+        # encounter.add_unit(char2)
         encounter.add_unit(gob1)
         encounter.add_unit(gob2)
         encounter.add_unit(gob3)

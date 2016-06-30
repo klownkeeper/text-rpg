@@ -1,11 +1,12 @@
 from units.creatures import Creature
 from settings import *
 from units.const import *
+from units.creatures.tactics.heal_weakest import HealWeakestTactic
 from encounter.const import *
 from items.weapons import UNARMED_STRIKE_SMALL
 
 
-class GoblinHealer(Creature):
+class GoblinHealer(HealWeakestTactic, Creature):
     """docstring for Goblin"""
 
     name = None
@@ -31,25 +32,3 @@ class GoblinHealer(Creature):
     creature_spells = {
         'cure_light_wounds': 2
     }
-
-    def choose_action(self, world):
-        """
-        Goblins are always attack most weak enemy.
-        """
-        teammate_list = self.teammate_list(world)
-        if self.creature_spells['cure_light_wounds'] > 0:
-            for idx in teammate_list:
-                unit = world.unit_list[idx]
-                if (float(unit.unit_hp) / float(unit.unit_hp_max)) < 0.7 and \
-                        self.unit_mp >= 2:
-                    self.creature_spells['cure_light_wounds'] -= 1
-                    return ("cast", "cure_light_wounds", unit.id)
-        enemy_list = self.enemy_list(world)
-        if len(enemy_list) == 0:
-            raise NoEnemyException
-        target_idx = enemy_list[0]
-        for idx in range(len(enemy_list)):
-            if world.unit_list[enemy_list[idx]].unit_hp < \
-                    world.unit_list[target_idx].unit_hp:
-                target_idx = idx
-        return ('attack', target_idx)
