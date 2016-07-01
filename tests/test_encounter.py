@@ -30,6 +30,8 @@ class TestEncounter(unittest.TestCase):
             unit_armor=SPLINT_MAIL_MEDIUM,
             )
         char1.team = "party"
+        char1.ask_ability_bonus = MagicMock(return_value="unit_str")
+        
         char1.gain_level("Fighter")
         char1.gain_level("Fighter")
         char1.gain_level("Fighter")

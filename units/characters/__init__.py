@@ -61,7 +61,8 @@ class CommandMixin(object):
 
     def ask_ability_bonus(self):
         """docstring for ask_ability_bonus"""
-        return "unit_str"
+        raise NotImplementedError("select ability point")
+        # return "unit_str"
 
 
 class AbstractCharacter(CommandMixin, Unit):
