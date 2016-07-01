@@ -121,6 +121,9 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
     def get_damage_modifier(self, world, *args):
         return 0
 
+    def check_hit(self, world, *args):
+        return True
+
     def effect(self, world, target_uuid, *args):
         target_idx = world.get_unit_idx_by_uuid(target_uuid)
         target = self.get_target(world, target_uuid)
@@ -134,9 +137,15 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
 
         damage = self.get_total_damage(world, *args)
 
-        world.unit_list[target_idx].unit_hp -= damage
-        cast_spell_success_print(
-            spell_name=self.name,
-            target_name=target.name,
-            message="damage \033[91m%s\033[0m by %d points hp (HP: %d)" % (target.name, damage, world.unit_list[target_idx].unit_hp))
+        if self.check_hit(world, target_idx):
+            world.unit_list[target_idx].unit_hp -= damage
+            cast_spell_success_print(
+                spell_name=self.name,
+                target_name=target.name,
+                message="damage \033[91m%s\033[0m by %d points hp (HP: %d)" % (target.name, damage, world.unit_list[target_idx].unit_hp))
+        else:
+            cast_spell_failed_print(
+                spell_name=self.name,
+                target_name=target.name,
+                message="Failed to hit.")
         return True
