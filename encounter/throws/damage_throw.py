@@ -21,7 +21,7 @@ class DamageThrowMixin(object):
         if is_critical:
             base_damage += dice(skill_damage)
             modifier += modifier
-        damage = base_damage + modifier - penalty
+        damage = base_damage + modifier + penalty
         if damage < const.MINIMUN_DAMAGE:
             damage = MINIMUN_DAMAGE
         self.unit_list[target_id].unit_hp -= damage

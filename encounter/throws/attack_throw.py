@@ -42,7 +42,7 @@ class AttackThrowMixin(object):
                 + attacker.size_modifier)
         target_ac = target.armor_class
 
-        attack_beat_ac = (d20 + attack_bonus - penalty) >= target_ac
+        attack_beat_ac = (d20 + attack_bonus + penalty) >= target_ac
 
         target_attack_print(player_name=attacker.name,
                             target_name=target.name)
@@ -90,7 +90,7 @@ class AttackThrowMixin(object):
                 + attacker.size_modifier)
         target_ac = target.touch_armor_class
 
-        attack_beat_ac = (d20 + attack_bonus - penalty) >= target_ac
+        attack_beat_ac = (d20 + attack_bonus + penalty) >= target_ac
 
         target_attack_print(player_name=attacker.name,
                             target_name=target.name)
