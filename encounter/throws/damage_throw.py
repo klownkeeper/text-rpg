@@ -17,7 +17,7 @@ class DamageThrowMixin(object):
         attacker = self.unit_list[attacker_id]
         target = self.unit_list[target_id]
         base_damage = dice(skill_damage)
-        modifier = attacker.ability_modifier(bonus_ability)
+        modifier = getattr(attacker, bonus_ability.lower()+"_modifier")
         if is_critical:
             base_damage += dice(skill_damage)
             modifier += modifier

@@ -38,17 +38,9 @@ class AttackThrowMixin(object):
         target = self.get_unit_by_idx(target_id)
 
         attack_bonus = (attacker.get_base_attack_bonus()[attack_time]
-                + attacker.ability_modifier(ability_to_attack)
+                + getattr(attacker, ability_to_attack.lower()+"_modifier")
                 + attacker.size_modifier)
         target_ac = target.armor_class
-        if target.unit_off_hand_weapon:
-            if hasattr(target.unit_off_hand_weapon, 'armor_type'):
-                if target.unit_off_hand_weapon['armor_type'] == armor_types.SHIELD:
-                    target_ac += target.unit_off_hand_weapon['armor_bonus']
-        if target.unit_armor:
-            target_ac += target.unit_armor['armor_bonus']
-
-        print("target ac:", target_ac)
 
         attack_beat_ac = (d20 + attack_bonus - penalty) >= target_ac
 

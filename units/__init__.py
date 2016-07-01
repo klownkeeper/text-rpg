@@ -45,27 +45,50 @@ class AbstractUnit(object):
 
     @property
     def str_modifier(self):
-        return self.ability_modifier('str')
+        return self._ability_modifier('str')
 
     @property
     def dex_modifier(self):
-        return self.ability_modifier('dex')
+        dex_modifier = self._ability_modifier('dex')
+        if self.armor_dex_cap:
+            if dex_modifier > self.armor_dex_cap:
+                dex_modifier = self.armor_dex_cap
+        if self.shield_dex_cap:
+            if dex_modifier > self.shield_dex_cap:
+                dex_modifier = self.armor_dex_cap
+        return dex_modifier
+
+    @property
+    def armor_dex_cap(self):
+        cap = None
+        if self.unit_armor:
+            if self.unit_armor['max_dex_bonus']:
+                cap = self.unit_armor['max_dex_bonus']
+        return cap
+
+    @property
+    def shield_dex_cap(self):
+        cap = None
+        if self.unit_off_hand_weapon:
+            if hasattr(self.unit_off_hand_weapon, 'max_dex_bonus'):
+                cap = self.unit_off_hand_weapon['max_dex_bonus']
+        return cap
 
     @property
     def con_modifier(self):
-        return self.ability_modifier('con')
+        return self._ability_modifier('con')
 
     @property
     def int_modifier(self):
-        return self.ability_modifier('int')
+        return self._ability_modifier('int')
 
     @property
     def wis_modifier(self):
-        return self.ability_modifier('wis')
+        return self._ability_modifier('wis')
 
     @property
     def chr_modifier(self):
-        return self.ability_modifier('chr')
+        return self._ability_modifier('chr')
 
     def get_base_attack_bonus(self):
         return self.base_attack_bonus
@@ -74,7 +97,7 @@ class AbstractUnit(object):
     def attack_times(self):
         return math.floor((self.base_attack_bonus - 1) / 5)
 
-    def ability_modifier(self, ability):
+    def _ability_modifier(self, ability):
         ability_point = getattr(self, "unit_" + ability.lower())
         return math.floor((ability_point - 10) / 2)
 
@@ -82,11 +105,19 @@ class AbstractUnit(object):
 
     @property
     def armor_bonus(self):
-        return 0
+        if self.unit_armor:
+            return self.unit_armor['armor_bonus']
+        else:
+            return 0
 
     @property
     def shield_bonus(self):
-        return 0
+        if (self.unit_off_hand_weapon and
+            hasattr(self.unit_off_hand_weapon, 'armor_type') and
+            self.unit_off_hand_weapon['armor_type'] == armor_types.SHIELD):
+            return self.unit_off_hand_weapon['armor_bonus']
+        else:
+            return 0
 
     @property
     def armor_class(self):
