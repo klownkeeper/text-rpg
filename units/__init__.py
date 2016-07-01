@@ -32,7 +32,10 @@ class AbstractUnit(object):
 
     unit_ac = 0
 
-    unit_main_weapon = None
+    unit_main_hand_weapon = None
+    unit_off_hand_weapon = None
+    unit_armor = None
+
     base_attack_bonus = [0]
 
     # Ability modifiers

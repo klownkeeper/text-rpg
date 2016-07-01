@@ -1,6 +1,7 @@
 from utils import dice
 from encounter import const
 from utils import target_attack_print, target_attack_failed_print
+from items import armor_types
 
 
 class AttackThrowMixin(object):
@@ -40,6 +41,14 @@ class AttackThrowMixin(object):
                 + attacker.ability_modifier(ability_to_attack)
                 + attacker.size_modifier)
         target_ac = target.armor_class
+        if target.unit_off_hand_weapon:
+            if hasattr(target.unit_off_hand_weapon, 'armor_type'):
+                if target.unit_off_hand_weapon['armor_type'] == armor_types.SHIELD:
+                    target_ac += target.unit_off_hand_weapon['armor_bonus']
+        if target.unit_armor:
+            target_ac += target.unit_armor['armor_bonus']
+
+        print("target ac:", target_ac)
 
         attack_beat_ac = (d20 + attack_bonus - penalty) >= target_ac
 

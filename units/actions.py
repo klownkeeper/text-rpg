@@ -47,7 +47,7 @@ class AttackMixin(object):
 
     def get_weapon(self, world):
         idx = self.get_self_idx(world)
-        return world.unit_list[idx].unit_main_weapon
+        return world.unit_list[idx].unit_main_hand_weapon
 
         
 class CastSpellMixin(object):

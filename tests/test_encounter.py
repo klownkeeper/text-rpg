@@ -8,6 +8,7 @@ from units.characters.classes import Fighter
 from encounter import Encounter
 from encounter.exceptions import *
 from items.weapons import SHORT_SWORD_MEDIUM
+from items.armors import SPLINT_MAIL_MEDIUM, LIGHT_WOOD_SHIELD_MEDIUM
 
 
 class TestEncounter(unittest.TestCase):
@@ -24,7 +25,9 @@ class TestEncounter(unittest.TestCase):
             int_modify=2,
             wis_modify=0,
             chr_modify=0,
-            init_weapon=SHORT_SWORD_MEDIUM,
+            unit_main_hand_weapon=SHORT_SWORD_MEDIUM,
+            unit_off_hand_weapon=LIGHT_WOOD_SHIELD_MEDIUM,
+            unit_armor=SPLINT_MAIL_MEDIUM,
             )
         char1.team = "party"
         char1.gain_level("Fighter")

@@ -39,7 +39,7 @@ CLUB_SMALL = {
     'critical_times': 2,
     'critical_dice': [20],
     'cost': '0',
-    'weight': 1,
+    'weight': 1.0,
     'hp': 2,
     'effect': None,
 }
@@ -53,7 +53,7 @@ SHORT_SWORD_SMALL = {
     'critical_times': 2,
     'critical_dice': [19, 20],
     'cost': '10',
-    'weight': 1,
+    'weight': 1.0,
     'hp': 1,
     'effect': None,
 }
@@ -67,7 +67,7 @@ SHORT_SWORD_MEDIUM = {
     'critical_times': 2,
     'critical_dice': [19, 20],
     'cost': '10',
-    'weight': 2,
+    'weight': 2.0,
     'hp': 2,
     'effect': None,
 }

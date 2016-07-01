@@ -40,7 +40,6 @@ class Character(AbstractCharacter):
                int_modify=0,
                wis_modify=0,
                chr_modify=0,
-               init_weapon=None,
                **kwargs
             ):
         char_class = getattr(char_classes, start_class)()
@@ -54,7 +53,6 @@ class Character(AbstractCharacter):
                 unit_int = 10+int_modify,
                 unit_wis = 10+wis_modify,
                 unit_chr = 10+chr_modify,
-                unit_main_weapon = init_weapon,
                 **kwargs,
         )
         hp_max = dice(char_class.hit_dice) + char.con_modifier

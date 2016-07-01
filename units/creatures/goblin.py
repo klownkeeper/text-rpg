@@ -20,4 +20,4 @@ class Goblin(RandomNormalAttackTactic, Creature):
 
     unit_exp = 5
 
-    unit_main_weapon = UNARMED_STRIKE_SMALL
+    unit_main_hand_weapon = UNARMED_STRIKE_SMALL
