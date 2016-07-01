@@ -1,8 +1,9 @@
 from skills.skill import AbstractSkill
 from utils import dice
-from skills.spells import const
+from skills.spells import const as spells_const
 from utils import (cast_spell_success_print,
                    cast_spell_failed_print)
+from encounter import const as encounter_const
 
 
 class Spell(AbstractSkill):
@@ -46,8 +47,8 @@ class SingleTargetHealSpellMixin(SingleTargetSpellMixin):
     heal_hp = 0
     heal_hp_dice = None
 
-    spell_type = const.HEAL_SPELL
-    spell_target_type = const.SINGLE_TARGET_SPELL
+    spell_type = spells_const.HEAL_SPELL
+    spell_target_type = spells_const.SINGLE_TARGET_SPELL
 
     def get_heal_hp(self, world, *args):
         """docstring for ge"""
@@ -101,8 +102,8 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
     damage = 0
     damage_dice = None
 
-    spell_type = const.DAMAGE_SPELL
-    spell_target_type = const.SINGLE_TARGET_SPELL
+    spell_type = spells_const.DAMAGE_SPELL
+    spell_target_type = spells_const.SINGLE_TARGET_SPELL
 
     def get_total_damage(self, world, *args):
         """docstring for ge"""
@@ -110,23 +111,25 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
         total_damage += self.get_damage_modifier(world, *args)
         return total_damage
 
-    def get_damage_dice(self, world, *args):
+    def get_damage_dice(self, world, is_critical, *args):
         damage = 0
         if hasattr(self, 'damage') and self.damage:
             damage += self.damage
+            if is_critical:
+                damage += self.damage
         if hasattr(self, 'damage_dice') and self.damage_dice:
             damage += dice(self.damage_dice)
+            if is_critical:
+                damage += dice(self.damage_dice)
         return damage
 
     def get_damage_modifier(self, world, *args):
         return 0
 
-    def check_hit(self, world, *args):
-        return True
-
     def effect(self, world, target_uuid, *args):
         target_idx = world.get_unit_idx_by_uuid(target_uuid)
         target = self.get_target(world, target_uuid)
+        caster_idx = world.current_act_unit_id
         caster = self.get_caster(world)
         if target.is_dead:
             cast_spell_failed_print(
@@ -135,17 +138,28 @@ class SingleTargetDamageSpellMixin(SingleTargetSpellMixin):
                 message="(Target lost)")
             return False
 
-        damage = self.get_total_damage(world, *args)
 
-        if self.check_hit(world, target_idx):
+        attack_roll = world.touch_attack_roll(caster_idx,
+                                              target_idx,
+                                              "dex")
+        if attack_roll == encounter_const.ATTACK_ROLL_HIT:
+            damage = self.get_total_damage(world, False, *args)
             world.unit_list[target_idx].unit_hp -= damage
             cast_spell_success_print(
                 spell_name=self.name,
                 target_name=target.name,
-                message="damage \033[91m%s\033[0m by %d points hp (HP: %d)" % (target.name, damage, world.unit_list[target_idx].unit_hp))
+                message=("damage \033[91m%s\033[0m by %d points hp (HP: %d)"
+                    % (target.name, damage, world.unit_list[target_idx].unit_hp)))
+        elif attack_roll == encounter_const.ATTACK_ROLL_CRITICAL:
+            damage = self.get_total_damage(world, True, *args)
+            world.unit_list[target_idx].unit_hp -= damage
+            cast_spell_success_print(
+                spell_name=self.name,
+                target_name=target.name,
+                message=("(Critical) damage \033[91m%s\033[0m by %d points hp (HP: %d)"
+                    % (target.name, damage, world.unit_list[target_idx].unit_hp)))
         else:
             cast_spell_failed_print(
                 spell_name=self.name,
                 target_name=target.name,
                 message="Failed to hit.")
-        return True

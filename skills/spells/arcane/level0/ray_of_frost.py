@@ -19,17 +19,3 @@ class RayOfFrost(SingleTargetDamageSpellMixin, ArcaneSpell):
 
     spell_type = const.DAMAGE_SPELL
     spell_target_type = const.SINGLE_TARGET_SPELL
-
-    # def check_hit(self, world, target_idx, *args):
-    #     caster_idx = world.current_act_unit_id
-    #     caster = world.get_unit_by_idx(attacker_idx)
-    #     target = world.get_unit_by_idx(target_idx)
-    #
-    #     attack_bonus = (caster.get_base_attack_bonus()[0]
-    #                     + caster.dex_modifier
-    #                     + caster.size_modifier)
-    #     ac = 
-        
-
-        
-

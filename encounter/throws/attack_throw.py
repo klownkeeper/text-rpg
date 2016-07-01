@@ -13,8 +13,8 @@ class AttackThrowMixin(object):
     """
 
     def attack_roll(self,
-                    attacker_id,
-                    target_id,
+                    attacker_idx,
+                    target_idx,
                     ability_to_attack,
                     attack_time=0,
                     critical_dice=[20],
@@ -34,8 +34,8 @@ class AttackThrowMixin(object):
         if d20 in critical_dice:
             maybe_critical = True
             # make a critical rool
-        attacker = self.get_unit_by_idx(attacker_id)
-        target = self.get_unit_by_idx(target_id)
+        attacker = self.get_unit_by_idx(attacker_idx)
+        target = self.get_unit_by_idx(target_idx)
 
         attack_bonus = (attacker.get_base_attack_bonus()[attack_time]
                 + getattr(attacker, ability_to_attack.lower()+"_modifier")
@@ -60,3 +60,49 @@ class AttackThrowMixin(object):
                 return const.ATTACK_ROLL_FAILED
 
         
+    def touch_attack_roll(self,
+                    attacker_idx,
+                    target_idx,
+                    ability_to_attack,
+                    attack_time=0,
+                    critical_dice=[20],
+                    penalty=0):
+        """
+        1d20. when get 1, always MISS.
+              when get 20, maybe critical.
+              when Base attack bonus + ability modifier + size modifier > target AC, HIT.
+                   if also critical, then CRITICAL_HIT
+              else if maybe critical, HIT.
+                   else MISS
+        """
+        d20 = dice("1d20")
+        maybe_critical = False
+        if d20 == 1:
+            return const.ATTACK_ROLL_FAILED
+        if d20 in critical_dice:
+            maybe_critical = True
+
+        attacker = self.get_unit_by_idx(attacker_idx)
+        target = self.get_unit_by_idx(target_idx)
+
+        attack_bonus = (attacker.get_base_attack_bonus()[attack_time]
+                + getattr(attacker, ability_to_attack.lower()+"_modifier")
+                + attacker.size_modifier)
+        target_ac = target.touch_armor_class
+
+        attack_beat_ac = (d20 + attack_bonus - penalty) >= target_ac
+
+        target_attack_print(player_name=attacker.name,
+                            target_name=target.name)
+        if attack_beat_ac:
+            if maybe_critical:
+                return const.ATTACK_ROLL_CRITICAL
+            else:
+                return const.ATTACK_ROLL_HIT
+        else:
+            if maybe_critical:
+                return const.ATTACK_ROLL_HIT
+            else:
+                target_attack_failed_print(player_name=attacker.name,
+                                    target_name=target.name)
+                return const.ATTACK_ROLL_FAILED

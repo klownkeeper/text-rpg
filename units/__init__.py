@@ -124,6 +124,10 @@ class AbstractUnit(object):
         return (10 + self.armor_bonus + self.shield_bonus
                 + self.dex_modifier + self.size_modifier)
 
+    @property
+    def touch_armor_class(self):
+        return 10 + self.dex_modifier + self.size_modifier
+
     def __init__(self, name, **kwargs):
         self.id = str(uuid.uuid4())
         self.name = name
