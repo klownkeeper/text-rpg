@@ -1,0 +1,14 @@
+from skills.spells.spell import Disrupt Undead
+
+class ArcaneSpell(Spell): Disrupt Undead
+    """
+    Abstract for ArcaneSpell
+    """
+
+    spell_effect = Ray
+    spell_target = 1d6
+    #undead creatures only
+    
+    #Divination spells are cast at +1 caster level
+
+    pass
